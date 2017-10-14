@@ -28,7 +28,11 @@ var srcY = 0;
 //tracking the movement left and right
 var left = false;
 //Assuming that the character whill move right first
-var right =true;
+var right = false;
+//Assuming that the character will move up
+var up = false;
+//Assume that the character will move down
+var down = false;
 //Speed of movement
 var speed = 12;
 
@@ -44,6 +48,40 @@ var character = new Image();
 //Setting the source to the iamge file
 character.src ="images/scott-pilgrim-character-spritesheet.png"
 
+//Even Listners for mouse and arrow key controls
+			document.addEventListener("keydown", keyDownHandler, false);
+			document.addEventListener("keyup", keyUpHandler, false);
+
+//detects when the left or right arrow key is pressed
+function keyDownHandler(e) {
+				if (e.keyCode == 39){
+					right = true;
+				}
+				else if(e.keyCode == 37){
+					left = true;
+				}
+                else if (e.keyCode == 38){
+                    up = true;
+                }
+                else if (e.keyCode == 40){
+                    down = true;
+                }
+			}
+			
+function keyUpHandler(e){
+				if(e.keyCode == 39) {
+					right = false;
+				}
+				else if(e.keyCode == 37){
+					left = false;
+				}
+                else if (e.keyCode == 38){
+                    up = false;
+                }
+                else if (e.keyCode == 40){
+                    down = false;
+                }
+			}
 function updateFrame(){
     //Updates the frame index
     currentFrame = ++currentFrame % frameCount;
@@ -65,6 +103,20 @@ function updateFrame(){
         srcY = trackRight * height;
         
         x += speed;
+    }
+    
+    if(down && y < canvasHeight - height){
+        //calculate srcY
+        srcX = trackRight * height;
+        
+        y += speed;
+    }
+    
+    if(up && y > 0 ){
+        //calculate srcY
+        srcX = trackRight * height;
+        
+        y -= speed;
     }
 }
 
